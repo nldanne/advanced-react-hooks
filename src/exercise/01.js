@@ -4,9 +4,10 @@
 import * as React from 'react'
 
 // 'action' is the value that is passed to the dispatch function 'setState'
-function countReducer(state, action) {
-  return {...state, ...action}
-}
+const countReducer = (state, action) => ({
+  ...state,
+  ...(typeof action === 'function' ? action(state) : action), // function OR object
+})
 
 function Counter({initialCount = 0, step = 1}) {
   const [state, setState] = React.useReducer(countReducer, {
@@ -14,7 +15,8 @@ function Counter({initialCount = 0, step = 1}) {
   })
 
   const {count} = state
-  const increment = () => setState({count: count + step})
+  const increment = () =>
+    setState(currentState => ({count: currentState.count + step}))
   return <button onClick={increment}>{count}</button>
 }
 
