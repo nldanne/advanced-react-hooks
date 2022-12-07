@@ -67,17 +67,20 @@ function useAsync(initialState) {
   const dispatch = useSafeDisptach(unsafeDispatch)
 
   // useCallback is memoizing
-  const run = React.useCallback(promise => {
-    dispatch({type: 'pending'})
-    promise.then(
-      data => {
-        dispatch({type: 'resolved', data})
-      },
-      error => {
-        dispatch({type: 'rejected', error})
-      },
-    )
-  }, [])
+  const run = React.useCallback(
+    promise => {
+      dispatch({type: 'pending'})
+      promise.then(
+        data => {
+          dispatch({type: 'resolved', data})
+        },
+        error => {
+          dispatch({type: 'rejected', error})
+        },
+      )
+    },
+    [dispatch],
+  )
 
   return {...state, run}
 }
