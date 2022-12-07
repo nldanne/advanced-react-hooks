@@ -13,7 +13,7 @@ import {
 function useSafeDisptach(dispatch) {
   const mountedRef = React.useRef(false)
 
-  React.useEffect(() => {
+  React.useLayoutEffect(() => {
     mountedRef.current = true
 
     //cleanup function
